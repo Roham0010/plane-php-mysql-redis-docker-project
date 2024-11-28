@@ -21,7 +21,10 @@ Ensure you have the following installed on your machine:
 There are two environment files handeled for the test and also dev:
 - `.env`
 - `.env.test`
-
+## Install dependencies
+   ```sh
+   composer install
+   ```
 ## Installation
 1. **Build Docker Containers**:
    ```sh
