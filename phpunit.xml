@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+    <env name="APP_ENV" value="test"/>
+    <env name="DB_HOST" value="appdb_test"/>
+    <env name="DB_USER" value="appuser"/>
+    <env name="DB_PASS" value="apppassword"/>
+    <env name="DB_NAME" value="roomvu_project_test"/>
+</php>
+
+</phpunit>

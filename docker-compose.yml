@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: roomvu-project-app
+    env_file:
+      - .env
+    ports:
+      - "${APP_PORT}:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - appdb
+      - redis
+      - appdb_test
+
+  appdb:
+    image: mysql:8.0
+    container_name: roomvu-project-db
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  appdb_test:
+    image: mysql:8.0
+    container_name: roomvu-project-db-test
+    env_file:
+      - .env.test
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data_test:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    command: redis-server --bind 0.0.0.0
+    ports:
+      - "6379:6379"
+
+volumes:
+  db_data:
+  db_data_test:

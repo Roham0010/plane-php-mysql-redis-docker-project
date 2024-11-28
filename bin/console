@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php'; // Autoload dependencies
+
+use App\Command\GetUsersCommand;
+use Symfony\Component\Console\Application;
+use App\Command\PopulateUsersCommand;
+use App\Command\CreateTransactionCommand;
+use App\Command\GenerateReportCommand;
+use App\Command\GetCommand;
+use App\Command\RunMigrationsCommand;
+use App\Database\Database;
+use App\Repository\UserRepository;
+use App\Repository\TransactionRepository;
+use App\Service\UserService;
+use App\Service\TransactionService;
+
+// Initialize the database and repositories
+$database = new Database();
+$userRepository = new UserRepository($database);
+$transactionRepository = new TransactionRepository($database);
+
+// Initialize the services
+$userService = new UserService($userRepository);
+$transactionService = new TransactionService($transactionRepository);
+
+// Create the application
+$application = new Application();
+
+// Add custom commands
+$application->add(new PopulateUsersCommand($userService));
+$application->add(new GetUsersCommand($userService));
+$application->add(new RunMigrationsCommand());
+$application->add(new GenerateReportCommand($transactionService));
+$application->add(new CreateTransactionCommand($transactionService));
+$application->add(new GetCommand($transactionService, $userService));
+// $application->add(new CreateTransactionCommand($transactionService, $userService));
+
+// Run the application
+$application->run();
